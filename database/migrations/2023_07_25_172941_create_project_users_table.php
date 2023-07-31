@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('project_users', function (Blueprint $table) {
-            $table->primary(["user_id","project_id"]);
             $table->foreignId("user_id")
             ->constrained();
             $table->foreignId("project_id")
             ->constrained();
-            $table->foreignId("user_type")
-            ->constrained();
+            $table->primary(["user_id","project_id"]);
+            
             $table->timestamps();
             $table->softDeletes();
         });

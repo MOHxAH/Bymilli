@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('project_name');
             $table->string('owner_name');
             $table->string('consultant_name');
+            $table->string('consultant_email');
+            $table->string('contractor_name');
+            $table->string('contractor_email');
             $table->date('start_date');
             $table->date('end_date');
             $table->string('project_logo');
