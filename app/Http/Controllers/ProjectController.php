@@ -10,7 +10,8 @@ public function view(Request $request){
     return Project::all();
 }
 public function show(Request $request,$id){
-    return response()->json(["massege"=>"done","data"=>Project::all()->where('id',$request->id)]);
+    $project= Project::find($id);
+    return response()->json(["massege"=>"done","data"=>$project]);
 }
 public function store(Request $request){
 
