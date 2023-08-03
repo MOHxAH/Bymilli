@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 class ProjectController extends Controller
 {
-public function index(Request $request){
+public function view(Request $request){
     return Project::all();
+}
+public function show(Request $request,$id){
+    return response()->json(["massege"=>"done","data"=>Project::all()->where('id',$request->id)]);
 }
 public function store(Request $request){
 
@@ -15,15 +18,19 @@ public function store(Request $request){
     //dd($request->all());
 
         $project = new Project;
-
+        //$project->project_id = $request->project_id;
+        $project->project_name = $request->project_name;
         $project->owner_name = $request->owner_name;
         $project->consultant_name = $request->consultant_name;
+        $project->consultant_email = $request->consultant_email;
+        $project->contractor_name = $request->contractor_name;
+        $project->contractor_email = $request->contractor_email;
         $project->start_date = $request->start_date;
         $project->end_date = $request->end_date;
         $project->project_logo = $request->project_logo;
-        $project->project_name = $request->project_name;
-
+        $project->project_description = $request->project_description;
         $project->save();
+        return response()->json(["massege"=>"done","data"=>$project]);
       //  return response;
 }
 // public function destroy(Request $request){

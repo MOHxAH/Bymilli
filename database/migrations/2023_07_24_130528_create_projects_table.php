@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('project_logo');
+            $table->string('project_description');
             $table->timestamps();
             $table->softDeletes();
         });

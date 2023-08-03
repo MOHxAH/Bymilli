@@ -14,12 +14,32 @@ use App\Models\Project;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get('projects', [ProjectController::class,('index')]);
-Route::Post('projects', [ProjectController::class,('store')]);
-//Route::delete('projects',[ProjectController::class,('destroy')]);
-Route::delete('projects/{id}', [TodoController::class, 'destroy']);
-Route::post('projects/{id}',[ProjectController::class,('update')]);
-Route::get('projects/{id}', [ProjectController::class,('show')]);
+
+Route::prefix('projects')
+->group(function () {
+    Route::get('', [ProjectController::class,('view')]);
+    Route::Post('', [ProjectController::class,('store')]);
+    Route::get('/{id}', [ProjectController::class,('show')]);
+    //Route::post('/{id}',[ProjectController::class,('update')]);
+    //Route::delete('projects/{id}', [TodoController::class, 'destroy']);
+    //Route::delete('projects',[ProjectController::class,('destroy')]);
+
+});
+
+Route::prefix('users')
+->group(function () {
+    //Route::get('', [ProjectController::class,('index')]);
+    //Route::Post('', [ProjectController::class,('store')]);
+    Route::post('/{id}',[UserController::class,('update')]);
+    Route::get('/{id}', [UserController::class,('show')]);
+    //Route::delete('projects/{id}', [TodoController::class, 'destroy']);
+    //Route::delete('projects',[ProjectController::class,('destroy')]);
+
+});
+
+
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
