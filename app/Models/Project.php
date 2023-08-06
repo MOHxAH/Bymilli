@@ -11,7 +11,7 @@ class Project extends Model
 {
 
     use HasFactory;
-    
+
     // protected $fillable = [
     // "project_name",
     // "owner_name",
@@ -20,10 +20,6 @@ class Project extends Model
     // "end_date",
     // "project_logo"];
 
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
 
     public function project_users(): HasMany
     {

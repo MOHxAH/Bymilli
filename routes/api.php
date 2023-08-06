@@ -4,6 +4,8 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Models\Project;
 use App\Models\Request as ModelsRequest;
 
@@ -18,8 +20,7 @@ use App\Models\Request as ModelsRequest;
 |
 */
 
-Route::prefix('projects')
-->group(function () {
+Route::prefix('projects')->group(function () {
     Route::get('', [ProjectController::class,('view')]);
     Route::Post('', [ProjectController::class,('store')]);
     Route::get('/{id}', [ProjectController::class,('show')]);
@@ -29,8 +30,7 @@ Route::prefix('projects')
 
 });
 
-Route::prefix('users')
-->group(function () {
+Route::prefix('users')->group(function () {
     //Route::get('', [ProjectController::class,('index')]);
     //Route::Post('', [ProjectController::class,('store')]);
     Route::post('/{id}',[UserController::class,('update')]);
@@ -38,6 +38,13 @@ Route::prefix('users')
     //Route::delete('projects/{id}', [TodoController::class, 'destroy']);
     //Route::delete('projects',[ProjectController::class,('destroy')]);
 
+});
+
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login');
+    Route::post('register', 'register');
+    Route::get('logout', 'logout');
+    //Route::post('refresh', 'refresh');
 });
 
 Route::prefix('requests')
@@ -71,3 +78,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
     return $request->user();
 });
+
+//Route::apiResource('posts', PostController::class)->middleware('auth:sanctum');
+

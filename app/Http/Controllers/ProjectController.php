@@ -7,8 +7,8 @@ use App\Models\Project;
 class ProjectController extends Controller
 {
 public function view(Request $request){
-    return Project::all();
-}
+    return Project::paginate(3);
+    }
 public function show(Request $request,$id){
     $project= Project::find($id);
     return response()->json(["massege"=>"done","data"=>$project]);
