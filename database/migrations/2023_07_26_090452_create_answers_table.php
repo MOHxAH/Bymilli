@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId("version_id")
             ->constrained();
-            $table->foreignId("response_id")
-            ->constrained();
+            // $table->foreignId("response_id")
+            // ->constrained();
             $table->foreignId("user_id")
             ->constrained();
             $table->string("content");

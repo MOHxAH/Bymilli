@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('contractor_email');
             $table->date('start_date');
             $table->date('end_date');
+            $table->string('location');
             $table->string('project_logo');
             $table->string('project_description');
             $table->timestamps();
