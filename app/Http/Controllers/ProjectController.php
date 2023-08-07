@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 class ProjectController extends Controller
 {
-public function view(Request $request){
+public function view(){
     return Project::paginate(3);
     }
-public function show(Request $request,$id){
+public function show($id){
     $project= Project::find($id);
     return response()->json(["massege"=>"done","data"=>$project]);
 }
@@ -30,6 +30,7 @@ public function store(Request $request){
         $project->end_date = $request->end_date;
         $project->project_logo = $request->project_logo;
         $project->project_description = $request->project_description;
+        $project->location = $request->location;
         $project->save();
         return response()->json(["massege"=>"done","data"=>$project]);
       //  return response;

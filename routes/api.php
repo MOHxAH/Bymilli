@@ -27,7 +27,6 @@ Route::prefix('projects')->group(function () {
     //Route::post('/{id}',[ProjectController::class,('update')]);
     //Route::delete('projects/{id}', [TodoController::class, 'destroy']);
     //Route::delete('projects',[ProjectController::class,('destroy')]);
-
 });
 
 Route::prefix('users')->group(function () {
@@ -47,19 +46,16 @@ Route::controller(AuthController::class)->group(function () {
     //Route::post('refresh', 'refresh');
 });
 
-Route::prefix('requests')
-->group(function () {
 Route::get('/evel', [RequestController::class,('view')]);
 Route::get('/uneval',[RequestController::class,('view')]);
 Route::get('/{id}',[RequestController::class,('show')]);
 
-Route::get('/SNA',[RequestController::class,('projectDetails')]);
-Route::get('/SNA',[RequestController::class,('create')]);
+Route::get('projects/{project_id}/form/{form_id}',[RequestController::class,('projectDetails')]);
+Route::post('projects/{id}/SNA',[RequestController::class,('create')]);
 
 Route::get('/WIR',[RequestController::class,('projectDetails')]);
-Route::get('/WIR',[RequestController::class,('create')]);
+Route::post('/WIR',[RequestController::class,('create')]);
 
-});
 
 Route::prefix('responses')
 ->group(function () {
