@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     //
     public function show(Request $request,$id){
-    return response()->json(["massege"=>"done","data"=>User::all()->where('id',$request->id)]);
+    return response()->json(["massege"=>"done","data"=>User::all()->where('id',$id)]);
     }
 
     public function update(Request $request,$id){

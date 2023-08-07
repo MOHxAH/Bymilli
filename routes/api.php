@@ -50,7 +50,7 @@ Route::get('/evel', [RequestController::class,('view')]);
 Route::get('/uneval',[RequestController::class,('view')]);
 Route::get('/{id}',[RequestController::class,('show')]);
 
-Route::get('projects/{project_id}/form/{form_id}',[RequestController::class,('projectDetails')]);
+Route::get('projects/{project_id}/form/{form_id}/{request_id?}',[RequestController::class,('projectDetails')]);
 Route::post('projects/{id}/SNA',[RequestController::class,('create')]);
 
 Route::get('/WIR',[RequestController::class,('projectDetails')]);
