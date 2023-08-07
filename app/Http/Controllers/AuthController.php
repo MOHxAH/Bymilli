@@ -76,7 +76,7 @@ class AuthController extends Controller
             $validateUser = Validator::make($request->all(),
             [
                 'email' => 'sometimes|required|email',
-                'password' => 'required|min6',
+                'password' => 'required',
                 'phone_number' => ['sometimes', 'string', 'regex:/^\+[0-9]{9,13}$/'],
                 //and here
             ]);
