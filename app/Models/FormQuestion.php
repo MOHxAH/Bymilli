@@ -16,22 +16,22 @@ class FormQuestion extends Model
         return $this->hasMany(Answer::class);
     }
 
-    public function responses(): BelongsTo
+    public function response(): BelongsTo
     {
         return $this->belongsTo(Response::class);
     }
-    public function requests(): BelongsTo
+    public function request(): BelongsTo
     {
         return $this->belongsTo(Request::class);
     }
 
-    public function forms(): HasOne
+    public function form(): HasOne
     {
         return $this->hasOne(Form::class);
     }
 
-    public function questions(): HasMany
+    public function question(): BelongsTo
     {
-        return $this->hasMany(Question::class);
+        return $this->belongsTo(Question::class);
     }
 }

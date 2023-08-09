@@ -30,7 +30,7 @@ class AuthController extends Controller
                 'full_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6',
-                'phone_number' => ['required', 'string', 'regex:/^\+[0-9]{9,13}$/'],
+                'phone_number' => ['required', 'string','unique:users'],
                 //here
             ]);
 
@@ -116,7 +116,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'User Logged In Successfully',
-            //'token' => $user->createToken("API TOKEN")->plainTextToken
+            'token' => $user->createToken("API TOKEN")->plainTextToken
         ], 200);
 
     } catch (\Throwable $th) {

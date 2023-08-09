@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Request extends Model
 {
+    protected $fillable = ['user_id','project_id','form_id','code'];
     use HasFactory;
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function projects(): BelongsTo
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
@@ -30,7 +31,7 @@ class Request extends Model
         return $this->hasMany(FormQuestion::class);
     }
 
-    public function forms(): HasOne
+    public function form(): HasOne
     {
         return $this->hasOne(Form::class);
     }

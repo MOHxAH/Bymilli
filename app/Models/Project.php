@@ -12,7 +12,7 @@ class Project extends Model
 
     use HasFactory;
 
-    // protected $fillable = [
+    //protected $fillable = ['project_id'];
     // "project_name",
     // "owner_name",
     // "consultant_name",

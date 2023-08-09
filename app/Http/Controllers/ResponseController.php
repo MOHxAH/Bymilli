@@ -6,5 +6,9 @@ use Illuminate\Http\Request;
 
 class ResponseController extends Controller
 {
-    //
+    
+
+
+
+
 }

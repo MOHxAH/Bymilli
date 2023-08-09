@@ -17,14 +17,14 @@ class Response extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function projects(): BelongsTo
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
 
-    public function versions(): HasOne
+    public function version(): BelongsTo
     {
-        return $this->hasOne(Version::class);
+        return $this->belongsTo(Version::class);
     }
     public function answers(): HasMany
     {

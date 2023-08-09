@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RequestResource;
+use App\Models\Answer;
 use App\Models\Form;
 use App\Models\Project;
 use App\Models\Request as ModelsRequest;
+use App\Models\Version;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+//use Laravel\Sanctum\HasApiTokens;
 
 class RequestController extends Controller
 {
@@ -43,4 +48,115 @@ class RequestController extends Controller
 
         ]);
     }
+
+    public function createRequest(Request $request,$project_id,$form_id,$request_id =null){
+
+        DB::beginTransaction();
+        try{
+
+            if($request_id==null){
+                $project = Project::find($project_id);
+                $form = Form::find($form_id);
+                $req_num =count($project->requests);
+                $newRequest = ModelsRequest::create([
+                'project_id'=>$project_id,
+                'user_id'=>auth()->id(),
+                'form_id'=>$form_id,
+                'code' =>$form->code.'#'.$req_num+1,
+            ]);
+            $newVersion = Version::create([
+                'request_id'=>$newRequest->id,
+                'version_number'=>1,
+            ]);
+            foreach($request->questions as $question){
+                //dd($question);
+            $newAnswer = Answer::create([
+                'version_id'=>$newVersion->id,
+                'form_question_id'=>$question['form_question_id'],
+                'user_id'=>auth()->id(),
+                'content'=>$question['content'],
+            ]);}
+        }else{
+            $requestID = ModelsRequest::where('user_id',auth()->id())
+            ->where('form_id',$form_id)
+            ->where('project_id',$project_id)
+            ->first();
+            $newVersion = Version::create([
+                'request_id'=>$requestID->id,
+                'version_number'=>$requestID->versions()->count()+1,
+            ]);
+            foreach($request->questions as $question){
+                //dd($question);
+            $newAnswer = Answer::create([
+                'version_id'=>$newVersion->id,
+                'form_question_id'=>$question['form_question_id'],
+                'user_id'=>auth()->id(),
+                'content'=>$question['content'],
+            ]);}
+        }
+            DB::commit();
+            return response()->json(['message' => 'Request created successfully.']);
+
+        }catch(\Exception $e){
+           DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);}
+
+    }
+
+    public function viewUneval($project_id){
+        $requests = ModelsRequest::where('project_id',$project_id)
+        ->whereHas("versions", function($query) {
+            $query->orderByDesc('created_at')
+                ->whereHas("answers", function($query){
+                    $query->whereHas("form_question", function($query){
+                        $query->whereHas("question", function($query){
+                            $query->whereIn('content',['tasks', 'start_job_date', 'end_job_date']);
+                        });
+                    });
+                });
+            })->with('versions.answers.form_question.question')->get();
+                return response()->json([
+                    'message' => 'done',
+                    'data' => RequestResource::collection($requests),
+                ]);
+    }
+
+        // $requests = ModelsRequest::where('project_id', $project_id)
+        // ->whereHas('versions', function ($query) {
+        //     $query->orderByDesc('created_at')->take(1)
+        //         ->whereHas('answers.form_questions.questions', function ($q) {
+        //             $q->whereIn('content', ['tasks', 'start_job_date', 'end_job_date']);
+
+
+    public function viewEval(Request $request, $project_id){
+         $requests = ModelsRequest::where('project_id',$project_id)
+         ->whereHas("versions", function($query) {
+            $query->whereHas("response");
+        })
+        ->whereHas("versions", function($query) {
+             $query->orderByDesc('created_at')
+                 ->whereHas("answers", function($query){
+                     $query->whereHas("form_question", function($query){
+                         $query->whereHas("question", function($query){
+                             $query->whereIn('content',['tasks', 'start_job_date', 'end_job_date']);
+                         });
+                     });
+                 });
+         })->with(['versions' => function($query) {
+            $query->with(['response', 'answers.form_question.question']);
+        }])
+        ->get();
+
+         return response()->json([
+            'message' => 'done',
+            'data' => RequestResource::collection($requests),
+        ]);
+    }
+
+
+
+    public function show(Request $request, $project_id){}
+
+
+
 }

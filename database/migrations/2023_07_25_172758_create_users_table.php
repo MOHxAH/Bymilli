@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone_number');
             $table->string('user_type');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->string('password');
             $table->timestamps();
             $table->softDeletes();

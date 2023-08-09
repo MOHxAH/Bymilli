@@ -46,17 +46,6 @@ Route::controller(AuthController::class)->group(function () {
     //Route::post('refresh', 'refresh');
 });
 
-Route::get('/evel', [RequestController::class,('view')]);
-Route::get('/uneval',[RequestController::class,('view')]);
-Route::get('/{id}',[RequestController::class,('show')]);
-
-Route::get('projects/{project_id}/form/{form_id}/{request_id?}',[RequestController::class,('projectDetails')]);
-Route::post('projects/{id}/SNA',[RequestController::class,('create')]);
-
-Route::get('/WIR',[RequestController::class,('projectDetails')]);
-Route::post('/WIR',[RequestController::class,('create')]);
-
-
 Route::prefix('responses')
 ->group(function () {
 Route::get('/{id}',[ResponseController::class,('show')]);
@@ -64,16 +53,26 @@ Route::get('/{id}',[ResponseController::class,('show')]);
 Route::get('/SNA',[ResponseController::class,('projectDetails')]);
 Route::get('/SNA',[ResponseController::class,('create')]);
 
-Route::get('/WIR',[ResponseController::class,('projectDetails')]);
-Route::get('/WIR',[ResponseController::class,('create')]);
+});
 
+Route::middleware('auth:sanctum')->group(function(){
+
+    Route::get('/projects/{project_id}/eval', [RequestController::class,('viewEval')]);
+    Route::get('/projects/{project_id}/uneval',[RequestController::class,('viewUneval')]);
+    Route::get('/{id}',[RequestController::class,('show')]);
+
+    Route::get('projects/{project_id}/form/{form_id}/{request_id?}',[RequestController::class,('projectDetails')]);
+    Route::post('projects/{project_id}/form/{form_id}/{request_id?}',[RequestController::class,('createRequest')]);
+
+    Route::get('/{id}',[ResponseController::class,('show')]);
+    Route::get('/SNA',[ResponseController::class,('create')]);
 });
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
-    return $request->user();
-});
+//     return $request->user();
+// });
 
 //Route::apiResource('posts', PostController::class)->middleware('auth:sanctum');
 

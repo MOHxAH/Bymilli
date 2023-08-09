@@ -14,7 +14,7 @@ class Form extends Model
     {
         return $this->hasMany(FormQuestion::class);
     }
-    public function requests(): BelongsTo
+    public function request(): BelongsTo
     {
         return $this->belongsTo(Request::class);
     }

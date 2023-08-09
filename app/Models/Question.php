@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Question extends Model
 {
     use HasFactory;
-    public function form_questions(): BelongsTo
+    public function form_questions(): HasMany
     {
-        return $this->belongsTo(FormQuestion::class);
+        return $this->hasMany(FormQuestion::class);
     }
-    public function question_options(): HasMany
-    {
-        return $this->hasMany(QuestionOption::class);
-    }
+    // public function question_options(): HasMany
+    // {
+    //     return $this->hasMany(QuestionOption::class);
+    // }
 }

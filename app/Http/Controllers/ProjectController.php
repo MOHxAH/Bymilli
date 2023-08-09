@@ -7,7 +7,7 @@ use App\Models\Project;
 class ProjectController extends Controller
 {
 public function view(){
-    return Project::paginate(3);
+    return Project::paginate(5);
     }
 public function show($id){
     $project= Project::find($id);

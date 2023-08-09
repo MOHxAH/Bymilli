@@ -19,6 +19,7 @@ return new class extends Migration
             ->constrained();
             $table->foreignId("form_id")
             ->constrained();
+            $table->string('code');
             $table->timestamps();
             $table->softDeletes();
         });

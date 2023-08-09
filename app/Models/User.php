@@ -38,10 +38,10 @@ class User extends Authenticatable //implements MustVerifyEmail // ,Model
         'email_verified_at' => 'datetime',
     ];
 
-    public function otps(): HasOne{
+    // public function otps(): HasOne{
 
-        return $this->hasOne(OTP::class);
-    }
+    //     return $this->hasOne(OTP::class);
+    // }
     public function project_users(): HasMany
     {
         return $this->hasMany(ProjectUser::class);
