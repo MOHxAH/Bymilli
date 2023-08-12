@@ -12,6 +12,7 @@ class Response extends Model
 {
     use HasFactory;
 
+    protected $fillable =['version_id','rate'];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -77,14 +77,12 @@ class RequestController extends Controller
                 'content'=>$question['content'],
             ]);}
         }else{
-            $requestID = ModelsRequest::where('user_id',auth()->id())
-            ->where('form_id',$form_id)
-            ->where('project_id',$project_id)
-            ->first();
+            $request = ModelsRequest::where('id',$request_id)->first();
             $newVersion = Version::create([
-                'request_id'=>$requestID->id,
-                'version_number'=>$requestID->versions()->count()+1,
+                'request_id'=>$request->id,
+                'version_number'=>$request->versions()->count()+1,
             ]);
+            //dd($request->questions);
             foreach($request->questions as $question){
                 //dd($question);
             $newAnswer = Answer::create([
@@ -152,11 +150,4 @@ class RequestController extends Controller
             'data' => RequestResource::collection($requests),
         ]);
     }
-
-
-
-    public function show(Request $request, $project_id){}
-
-
-
 }

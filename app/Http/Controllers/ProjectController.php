@@ -9,6 +9,9 @@ class ProjectController extends Controller
 public function view(){
     return Project::paginate(5);
     }
+public function viewAll(){
+        return Project::all();
+        }
 public function show($id){
     $project= Project::find($id);
     return response()->json(["massege"=>"done","data"=>$project]);

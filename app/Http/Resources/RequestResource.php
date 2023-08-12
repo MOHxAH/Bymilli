@@ -16,7 +16,6 @@ class RequestResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            //'request_id' => $this->id,
             'code'=> $this->code,
             'versions' => VersionResource::collection($this->versions),
         ];

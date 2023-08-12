@@ -77,7 +77,7 @@ class AuthController extends Controller
             [
                 'email' => 'sometimes|required|email',
                 'password' => 'required',
-                'phone_number' => ['sometimes', 'string', 'regex:/^\+[0-9]{9,13}$/'],
+                'phone_number' => ['sometimes', 'string'],
                 //and here
             ]);
 
