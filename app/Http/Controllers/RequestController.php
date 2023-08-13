@@ -128,9 +128,6 @@ class RequestController extends Controller
 
     public function viewEval(Request $request, $project_id){
          $requests = ModelsRequest::where('project_id',$project_id)
-         ->whereHas("versions", function($query) {
-            $query->whereHas("response");
-        })
         ->whereHas("versions", function($query) {
              $query->orderByDesc('created_at')
                  ->whereHas("answers", function($query){
@@ -139,7 +136,7 @@ class RequestController extends Controller
                              $query->whereIn('content',['tasks', 'start_job_date', 'end_job_date']);
                          });
                      });
-                 });
+                 })->whereHas("response");
          })->with(['versions' => function($query) {
             $query->with(['response', 'answers.form_question.question']);
         }])

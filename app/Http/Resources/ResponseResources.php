@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\QuestionResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FormQuestionResource extends JsonResource
+class ResponseResources extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +15,7 @@ class FormQuestionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'form_question_id' =>$this->id,
-            'question' => new QuestionResource($this->question)
+            'rate' => $this->rate
         ];
-
     }
 }

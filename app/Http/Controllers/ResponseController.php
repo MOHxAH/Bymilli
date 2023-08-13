@@ -16,6 +16,11 @@ class ResponseController extends Controller
 
         DB::beginTransaction();
         try{
+            if(Response::where('version_id', $version_id)->count()>0)
+            {
+                return response()->json(['error' => 'there is a response'], 400);
+            }
+
             $newResponse = Response::create([
                 'version_id'=>$version_id,
                 'rate'=> $request->rate,

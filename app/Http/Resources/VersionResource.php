@@ -16,6 +16,7 @@ class VersionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return[
+        'rate'=> $this->when($this->response,new ResponseResources($this->response)),
         'answers' => AnswerResource::collection($this->answers),
         //'response'=> when('response'),
         ];
