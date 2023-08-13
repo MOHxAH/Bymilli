@@ -76,15 +76,14 @@ Route::middleware('auth:sanctum')->group(function(){
         //Route::delete('projects',[ProjectController::class,('destroy')]);
 
     });
-    Route::prefix('project')->group(function () {
-        Route::get('', [ProjectController::class,('view')]);
-        Route::get('s', [ProjectController::class,('viewAll')]);
-        Route::post('', [ProjectController::class,('store')]);
-        Route::get('/{id}', [ProjectController::class,('show')]);
+        Route::get('project', [ProjectController::class,('view')]);
+        Route::get('projects', [ProjectController::class,('viewAll')]);
+        Route::post('project', [ProjectController::class,('store')]);
+        Route::get('project/{id}', [ProjectController::class,('show')]);
     //     //Route::post('/{id}',[ProjectController::class,('update')]);
     //     //Route::delete('projects/{id}', [TodoController::class, 'destroy']);
     //     //Route::delete('projects',[ProjectController::class,('destroy')]);
-    });
+    
 
 
     Route::get('/projects/{project_id}/eval', [RequestController::class,('viewEval')]);

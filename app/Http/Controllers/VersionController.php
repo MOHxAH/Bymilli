@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Answer;
 use App\Models\Response;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class VersionController extends Controller
 {
@@ -16,12 +17,21 @@ class VersionController extends Controller
         })->get();
         if($type=='res_question'){$rate = Response::where('version_id',$version_id)
         ->latest()->first();
-        $data->push(['rate'=>$rate->rate??null]);}
+    };
 
+
+    $times =[
+                 "gre"=>"",
+                 "hij"=>"",
+                 "rem"=>"",
+                 "cur"=>"",
+    ];
 
         return response()->json([
             'message' => 'done',
-             'data'=> $data,
+            'data'=> $data,
+            'rate'=>$rate->rate??null,
+            'times'=>$times
             ]);
 
 
