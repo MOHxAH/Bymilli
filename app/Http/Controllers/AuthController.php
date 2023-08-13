@@ -52,7 +52,15 @@ class AuthController extends Controller
 
         // ]);
         // event(new Registered($user));
-        $user = User::create($request->getAttributes())->sendEmailVerificationNotification();
+        $user = User::create([
+                 'full_name' => $request->full_name,
+                 'email' => $request->email,
+                 'password' => Hash::make($request->password),
+                 'logo' => $request->logo,
+                 'phone_number' => $request->phone_number,
+                 'user_type' => $request->user_type
+
+             ])->sendEmailVerificationNotification();
         //event(new Registered($user));
 
         return response()->json([
