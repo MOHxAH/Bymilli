@@ -12,14 +12,12 @@ class Project extends Model
 
     use HasFactory;
 
-    //protected $fillable = ['project_id'];
-    // "project_name",
-    // "owner_name",
-    // "consultant_name",
-    // "start_date",
-    // "end_date",
-    // "project_logo"];
-
+    protected $fillable = ['project_id',"project_name",
+    "owner_name","consultant_name",
+    'consultant_email','contractor_name',
+    'contractor_email',"start_date",
+    "end_date","project_logo",
+    'project_description','location'];
 
     public function project_users(): HasMany
     {
