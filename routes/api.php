@@ -55,7 +55,6 @@ Route::controller(AuthController::class)->group(function () {
 });
 Route::get('email/verify/{id}', 'VerificationController@verify')->name('verification.verify');
 Route::get('email/resend', 'VerificationController@resend')->name('verification.resend');
-Route::get('projects/{project_id}/form/{form_id}/{request_id?}',[RequestController::class,('projectDetails')]);
 
 Route::middleware('auth:sanctum')->group(function(){
 
@@ -63,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/projects/{project_id}/uneval',[RequestController::class,('viewUneval')]);
 
     Route::get('projects/requests/{version_id}',[VersionController::class,('show')]);
+    Route::get('projects/{project_id}/form/{form_id}/{request_id?}',[RequestController::class,('projectDetails')]);
 
     Route::post('projects/{project_id}/form/{form_id}/{request_id?}',[RequestController::class,('createRequest')]);
 
