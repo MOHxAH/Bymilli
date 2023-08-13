@@ -22,20 +22,20 @@ use App\Models\Request as ModelsRequest;
 |
 */
 
-//Route::prefix('project')->group(function () {
-    //Route::get('', [ProjectController::class,('view')]);
-    //Route::get('s', [ProjectController::class,('viewAll')]);
-    //Route::Post('', [ProjectController::class,('store')]);
-    //Route::get('/{id}', [ProjectController::class,('show')]);
+Route::prefix('project')->group(function () {
+    Route::get('', [ProjectController::class,('view')]);
+    Route::get('s', [ProjectController::class,('viewAll')]);
+    Route::Post('', [ProjectController::class,('store')]);
+    Route::get('/{id}', [ProjectController::class,('show')]);
     //Route::post('/{id}',[ProjectController::class,('update')]);
     //Route::delete('projects/{id}', [TodoController::class, 'destroy']);
     //Route::delete('projects',[ProjectController::class,('destroy')]);
-//});
+});
 
-Route::get('project', [ProjectController::class,('view')]);
-Route::get('projects', [ProjectController::class,('viewAll')]);
-Route::Post('project', [ProjectController::class,('store')]);
-Route::get('project/{id}', [ProjectController::class,('show')]);
+// Route::get('project', [ProjectController::class,('view')]);
+// Route::get('projects', [ProjectController::class,('viewAll')]);
+// Route::Post('project', [ProjectController::class,('store')]);
+// Route::get('project/{id}', [ProjectController::class,('show')]);
 
 Route::prefix('users')->group(function () {
     //Route::get('', [ProjectController::class,('index')]);
@@ -53,6 +53,9 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('logout', 'logout');
     //Route::post('refresh', 'refresh');
 });
+Route::get('email/verify/{id}', 'VerificationController@verify')->name('verification.verify');
+Route::get('email/resend', 'VerificationController@resend')->name('verification.resend');
+Route::get('projects/{project_id}/form/{form_id}/{request_id?}',[RequestController::class,('projectDetails')]);
 
 Route::middleware('auth:sanctum')->group(function(){
 
@@ -61,7 +64,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::get('projects/requests/{version_id}',[VersionController::class,('show')]);
 
-    Route::get('projects/{project_id}/form/{form_id}/{request_id?}',[RequestController::class,('projectDetails')]);
     Route::post('projects/{project_id}/form/{form_id}/{request_id?}',[RequestController::class,('createRequest')]);
 
     Route::post('responses/version/{versoin_id}',[ResponseController::class,('createResponse')]);
