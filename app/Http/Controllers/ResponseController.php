@@ -41,6 +41,7 @@ class ResponseController extends Controller
                 return response()->json(['error' => 'A response already exists'], 400);
             }
 
+            $version = Version::where()->latest()->first();
             // Create a new response
             $newResponse = Response::create([
                 'version_id' => $version_id,
@@ -65,7 +66,7 @@ class ResponseController extends Controller
         } catch (\Exception $e) {
             // If an exception occurs, roll back the transaction and return an error response
             DB::rollback();
-            return response()->json(['error' => 'An error occurred while processing your request'], 500);
+            return response()->json(['error' => 'An error occurred while processing your request'.$e->getMessage()], 500);
         }
     }
 
