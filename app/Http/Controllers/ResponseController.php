@@ -14,25 +14,43 @@ class ResponseController extends Controller
 {
     public function createResponse(Request $request, $version_id)
     {
-        try {
-            // Validation rules for the input data
-            $rules = [
-                'rate' => 'required|string|min:1|max:5',
-                'questions' => 'required|array',
-                'questions.*.form_question_id' => 'required|exists:form_questions,id',
-                'questions.*.content' => 'required|string',
+
+            $questionData = [
+                'questions' => []
             ];
 
-            // Validate the input data
-            $validator = Validator::make($request->all(), $rules);
+            foreach ($request->all() as $key => $question) {
+                if (in_array($key, ['41', '45', '49','52','56','60'])) {
+                    $object = [
+                        'form_question_id' => $key,
+                        'files' => $question
+                    ];
+                } else {
+                    $object = [
+                        'form_question_id' => $key,
+                        'content' => $question
+                    ];
+                }
 
+                $questionData["questions"][] = $object;
+            }
+
+            // Validation rules for the input data
+            $validation = Validator::make($questionData, [
+                'questions' => 'required|array',
+                'questions.*.form_question_id' => 'required|integer',
+                'questions.*.content' => 'exclude_if:questions.*.form_question_id,41,45,49,52,56,60|required|string',
+                'questions.*.files' => 'exclude_unless:questions.*.form_question_id,41,45,49,52,56,60|required|file',
+
+            ]);
             // If validation fails, return a response with validation errors
-            if ($validator->fails()) {
-                return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()], 422);
+            if ($validation->fails()) {
+                return response()->json(['message' => 'Validation failed', 'errors' => $validation->errors()], 422);
             }
 
             // Start a database transaction
             DB::beginTransaction();
+            try {
 
             // Check if a response already exists for the given version
             if (Response::where('version_id', $version_id)->count() > 0) {
@@ -49,7 +67,13 @@ class ResponseController extends Controller
             ]);
 
             // Create answers for each question in the input
-            foreach ($request->questions as $question) {
+            foreach ($questionData['questions'] as $question) {
+                if(in_array($question["form_question_id"], ['41', '45', '49','52','56','60'])){
+                    $file = $question["files"];
+                    $filename = date('YmdHi').$file->getClientOriginalName();
+                    $file->move(public_path('images'), $filename);
+                    $question['content']= $filename;
+                }
                 $newAnswer = Answer::create([
                     'version_id' => $version_id,
                     'form_question_id' => $question['form_question_id'],

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\ProjectUser;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,8 +20,8 @@ class UserController extends Controller
         // Return the response with user's data and associated projects
         return response()->json([
             "message" => "Data retrieved successfully",
-            "user" => $user,
-            //"user_projects" => $user->projects,
+            "user" => new UserResource($user),
+            //"user_projects" => $user->projects,UserResource::collection(
         ]);
     } catch (\Exception $e) {
         // Handle exceptions and return error response with server error status code

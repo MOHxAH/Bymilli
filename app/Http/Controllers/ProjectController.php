@@ -32,7 +32,7 @@ public function store(Request $request)
             'contractor_email' => 'required|email|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'project_logo' => 'nullable|string|max:255',
+            'project_logo' => 'nullable|file', //,max:2048'
             'project_description' => 'nullable|string',
             'location' => 'required|string|max:255',
         ]);
@@ -42,8 +42,28 @@ public function store(Request $request)
             return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()], 422);
         }
 
+        $project = new Project;
+
+        if ($request->hasFile('project_logo')) {
+            $file = $request->file('project_logo');
+            $filename = date('YmdHi').$file->getClientOriginalName();
+                        $file->move(public_path('images'), $filename);
+        }
+        $project->project_name = $request->project_name;
+        $project->owner_name = $request->owner_name;
+        $project->consultant_name = $request->consultant_name;
+        $project->consultant_email = $request->consultant_email;
+        $project->contractor_name = $request->contractor_name;
+        $project->contractor_email = $request->contractor_email;
+        $project->start_date = $request->start_date;
+        $project->end_date = $request->end_date;
+        $project->project_logo = $request->project_logo;
+        $project->project_description = $request->project_description;
+        $project->location = $request->location;
+        $project->save();
+
         // Create a new project using mass assignment
-        $project = Project::create($request->all());
+        //$project = Project::create($request->all());
 
         $projectUser = ProjectUser::create([
         'user_id' => auth()->id(),

@@ -51,7 +51,7 @@ class RequestController extends Controller
         ];
 
         foreach ($Hrequest->all() as $key => $question) {
-            if (in_array($key, ['7', '16', '19'])) {
+            if (in_array($key, ['7', '16', '19','26','35','38'])) {
                 $object = [
                     'form_question_id' => $key,
                     'files' => $question
@@ -65,18 +65,19 @@ class RequestController extends Controller
 
             $questionData["questions"][] = $object;
         }
-        // return $questionData;
-        //return $Hrequest->file('key')->move(public_path('images'), 'myfile.png');
         $validation = Validator::make($questionData, [
             'questions' => 'required|array',
             'questions.*.form_question_id' => 'required|integer',
-            'questions.*.content' => 'exclude_if:questions.*.form_question_id,7,16,19|required|string',
-            'questions.*.files' => 'exclude_unless:questions.*.form_question_id,7,16,19|required|file',
+            'questions.*.content' => 'exclude_if:questions.*.form_question_id,7,16,19,26,35,38|required|string',
+            'questions.*.files' => 'exclude_unless:questions.*.form_question_id,7,16,19,26,35,38|required|file',
 
         ]);
-        // if($validation->fails()){
-        // return response()->json(["status"=>"false",
-        //         "massege"=>"bad request"]);}
+
+        // If validation fails, return a response with validation errors
+        if ($validation->fails()) {
+            return response()->json(['message' => 'Validation failed', 'errors' => $validation->errors()], 422);
+        }
+
         DB::beginTransaction();
         try {
 
@@ -94,29 +95,41 @@ class RequestController extends Controller
                     'request_id' => $newRequest->id,
                     'version_number' => 1,
                 ]);
-                foreach ($Hrequest->all() as $key => $question) {
 
+                foreach ($questionData['questions'] as $question) {
+                    if(in_array($question["form_question_id"], ['7', '16', '19','26','35','38'])){
+                        $file = $question["files"];
+                        $filename = date('YmdHi').$file->getClientOriginalName();
+                        $file->move(public_path('images'), $filename);
+                        $question['content']= $filename;
+                    }
                     $newAnswer = Answer::create([
                         'version_id' => $newVersion->id,
-                        'form_question_id' => $key,
+                        'form_question_id' => $question["form_question_id"],
                         'user_id' => auth()->id(),
-                        'content' => $question,
+                        'content' => $question["content"],
                     ]);
                 }
-            } else {
+            }else {
                 $request = ModelsRequest::where('id', $request_id)->first();
                 $newVersion = Version::create([
                     'request_id' => $request->id,
                     'version_number' => $request->versions()->count() + 1,
                 ]);
 
-                foreach ($Hrequest->all() as $key => $question) {
+                foreach ($questionData['questions'] as $question) {
+                    if(in_array($question["form_question_id"], ['7', '16', '19','26','35','38'])){
+                        $file = $question["files"];
+                        $filename = date('YmdHi').$file->getClientOriginalName();
+                        $file->move(public_path('images'), $filename);
+                        $question['content']= $filename;
+                    }
 
                     $newAnswer = Answer::create([
                         'version_id' => $newVersion->id,
-                        'form_question_id' => $key,
+                        'form_question_id' => $question["form_question_id"],
                         'user_id' => auth()->id(),
-                        'content' => $question,
+                        'content' => $question["content"],
                     ]);
                 }
             }
@@ -125,7 +138,6 @@ class RequestController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            //dd($request->all());
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
