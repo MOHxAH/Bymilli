@@ -211,20 +211,18 @@ class FormQuestionSeeder extends Seeder
             'question_id'=>'19',
             'q_type'=>'1'
         ]);
-        FormQuestion::create([
-            'form_id'=>'2',
-            'question_id'=>'20',
-            'q_type'=>'1'
-        ]);
-        FormQuestion::create([
-            'form_id'=>'2',
-            'question_id'=>'21',
-            'q_type'=>'1'
-        ]);
-
-
 
         // for response SNA
+        FormQuestion::create([
+            'form_id'=>'1',
+            'question_id'=>'20',
+            'q_type'=>'2'
+        ]);
+        FormQuestion::create([
+            'form_id'=>'1',
+            'question_id'=>'21',
+            'q_type'=>'2'
+        ]);
         FormQuestion::create([
             'form_id'=>'1',
             'question_id'=>'22',
@@ -268,16 +266,6 @@ class FormQuestionSeeder extends Seeder
         FormQuestion::create([
             'form_id'=>'1',
             'question_id'=>'30',
-            'q_type'=>'2'
-        ]);
-        FormQuestion::create([
-            'form_id'=>'1',
-            'question_id'=>'31',
-            'q_type'=>'2'
-        ]);
-        FormQuestion::create([
-            'form_id'=>'1',
-            'question_id'=>'32',
             'q_type'=>'2'
         ]);
 
@@ -285,6 +273,16 @@ class FormQuestionSeeder extends Seeder
         // for response WIR
         FormQuestion::create([
             'form_id'=>'2',
+            'question_id'=>'20',
+            'q_type'=>'2'
+        ]);
+        FormQuestion::create([
+            'form_id'=>'2',
+            'question_id'=>'21',
+            'q_type'=>'2'
+        ]);
+        FormQuestion::create([
+            'form_id'=>'2',
             'question_id'=>'22',
             'q_type'=>'2'
         ]);
@@ -328,16 +326,7 @@ class FormQuestionSeeder extends Seeder
             'question_id'=>'30',
             'q_type'=>'2'
         ]);
-        FormQuestion::create([
-            'form_id'=>'2',
-            'question_id'=>'31',
-            'q_type'=>'2'
-        ]);
-        FormQuestion::create([
-            'form_id'=>'2',
-            'question_id'=>'32',
-            'q_type'=>'2'
-        ]);
+        
 
 
 

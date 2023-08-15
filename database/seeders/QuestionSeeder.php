@@ -71,14 +71,8 @@ class QuestionSeeder extends Seeder
         Question::create([
             'content'=>'project_manager_contractor_signature',
         ]);
-        Question::create([
-            'content'=>'work_theme',
-        ]);
-        Question::create([
-            'content'=>'document_type',
-        ]);
 
-        //id 22
+        //id 20
         Question::create([
             'content'=>'consultant_major',
         ]);
