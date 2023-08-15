@@ -74,9 +74,9 @@ class RequestController extends Controller
             'questions.*.files' => 'exclude_unless:questions.*.form_question_id,7,16,19|required|file',
 
         ]);
-        if($validation->fails()){
-        return response()->json(["status"=>"false",
-                "massege"=>"bad request"]);}
+        // if($validation->fails()){
+        // return response()->json(["status"=>"false",
+        //         "massege"=>"bad request"]);}
         DB::beginTransaction();
         try {
 
