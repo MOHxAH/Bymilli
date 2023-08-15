@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProjectUser;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Models\Project;
@@ -44,14 +45,21 @@ public function store(Request $request)
         // Create a new project using mass assignment
         $project = Project::create($request->all());
 
+        $projectUser = ProjectUser::create([
+        'user_id' => auth()->id(),
+        'project_id' => $project->id,
+        'project_name'=>$project->project_name,
+
+        ]);
+
         // Return success response with created status code
         return response()->json(['message' => 'Project created successfully', 'data' => $project], 201);
     } catch (QueryException $e) {
         // Handle database query exceptions and return error response with server error status code
-        return response()->json(['message' => 'An error occurred while processing your request'], 500);
+        return response()->json(['message' => 'An error occurred while processing your request', 'error' => $e->getMessage()], 500);
     } catch (\Exception $e) {
         // Handle other exceptions and return error response with server error status code
-        return response()->json(['message' => 'An unexpected error occurred'], 500);
+        return response()->json(['message' => 'An unexpected error occurred','error' => $e->getMessage()], 500);
     }
 }
 // public function destroy(Request $request){

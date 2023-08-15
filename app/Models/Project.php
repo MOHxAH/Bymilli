@@ -23,6 +23,10 @@ class Project extends Model
     {
         return $this->hasMany(ProjectUser::class);
     }
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
 
     public function requests(): HasMany
     {

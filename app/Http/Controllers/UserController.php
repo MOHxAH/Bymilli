@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProjectUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -9,14 +10,27 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     //
-    public function show(Request $request,$id){
-    return response()->json(["massege"=>"done","data"=>User::find($id)]);
-    }
+    public function show(Request $request, $id)
+{
+    try {
+        // Retrieve the user and their associated projects
+        $user = User::with('project_users')->find($id);
 
+        // Return the response with user's data and associated projects
+        return response()->json([
+            "message" => "Data retrieved successfully",
+            "user" => $user,
+            //"user_projects" => $user->projects,
+        ]);
+    } catch (\Exception $e) {
+        // Handle exceptions and return error response with server error status code
+        return response()->json(['error' => 'An unexpected error occurred','errorM' => $e->getMessage()], 500);
+    }
+}
 public function update(Request $request, $id)
 {
     try {
-        
+
         // Define validation rules for the input
         $validator = Validator::make($request->all(), [
             'full_name' => 'nullable|string|max:255',

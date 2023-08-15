@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId("project_id")
             ->constrained();
             $table->primary(["user_id","project_id"]);
-            
+            $table->string('project_name')->default('');
             $table->timestamps();
             $table->softDeletes();
         });
