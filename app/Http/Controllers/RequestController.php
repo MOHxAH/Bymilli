@@ -152,6 +152,7 @@ class RequestController extends Controller
                 foreach($request->versions as $version ){
                     $obj= [
                         'code'=>$request->code,
+                        'version_id'=>$version->id
                     ];
                         foreach($version->answers as $answer){
 
@@ -172,7 +173,6 @@ class RequestController extends Controller
 
 
             }
-        return $versions;
 
 
         // where('project_id', $project_id)
@@ -195,7 +195,8 @@ class RequestController extends Controller
         return response()->json([
             'message' => 'done',
             'user_type '=>auth()->user()->user_type,
-            'data' => RequestResource::collection($requests),
+            'user_id'=>auth()->user()->id,
+            'data' => $versions,
         ]);
     }
 
