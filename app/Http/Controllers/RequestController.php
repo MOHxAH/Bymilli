@@ -152,7 +152,7 @@ class RequestController extends Controller
                 foreach($request->versions as $version ){
                     $obj= [
                         'code'=>$request->code,
-                        'version_id'=>$version->id
+                        'version_id'=>$version->id,
                     ];
                         foreach($version->answers as $answer){
 

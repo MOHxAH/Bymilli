@@ -36,17 +36,17 @@ class ResponseController extends Controller
             }
 
             // Validation rules for the input data
-            $validation = Validator::make($questionData, [
-                'questions' => 'required|array',
-                'questions.*.form_question_id' => 'required|integer',
-                'questions.*.content' => 'exclude_if:questions.*.form_question_id,41,45,49,52,56,60|required|string',
-                'questions.*.files' => 'exclude_unless:questions.*.form_question_id,41,45,49,52,56,60|required|file',
+            // $validation = Validator::make($questionData, [
+            //     'questions' => 'required|array',
+            //     'questions.*.form_question_id' => 'required|integer',
+            //     'questions.*.content' => 'exclude_if:questions.*.form_question_id,41,45,49,52,56,60|required|string',
+            //     'questions.*.files' => 'exclude_unless:questions.*.form_question_id,41,45,49,52,56,60|required|file',
 
-            ]);
+            // ]);
             // If validation fails, return a response with validation errors
-            if ($validation->fails()) {
-                return response()->json(['message' => 'Validation failed', 'errors' => $validation->errors()], 422);
-            }
+            // if ($validation->fails()) {
+            //     return response()->json(['message' => 'Validation failed', 'errors' => $validation->errors()], 422);
+            // }
 
             // Start a database transaction
             DB::beginTransaction();
