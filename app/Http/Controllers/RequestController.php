@@ -146,17 +146,52 @@ class RequestController extends Controller
 
     public function viewUneval($project_id)
     {
-        $requests = ModelsRequest::where('project_id', $project_id)
-            ->whereHas("versions", function ($query) {
-                $query->orderByDesc('created_at')
-                    ->whereHas("answers", function ($query) {
-                        $query->whereHas("form_question", function ($query) {
-                            $query->whereHas("question", function ($query) {
-                                $query->whereIn('content', ['tasks', 'start_job_date', 'end_job_date', 'work_major']);
-                            });
-                        });
-                    });
-            })->with('versions.answers.form_question.question')->get();
+        $requests = ModelsRequest::with(['versions.answers'])->get();
+        $versions=[];
+            foreach($requests as $request){
+                foreach($request->versions as $version ){
+                    $obj= [
+                        'code'=>$request->code,
+                    ];
+                        foreach($version->answers as $answer){
+
+                            if($answer->form_question_id==8||$answer->form_question_id==27){
+                                $obj['task']=$answer->content;
+                            }
+                            if($answer->form_question_id==11||$answer->form_question_id==30){
+                                $obj['start_job_date']=$answer->content;
+                            }
+                            if($answer->form_question_id==12||$answer->form_question_id==31){
+                                $obj['end_job_date']=$answer->content;
+                            }
+
+                        }
+                        $versions[]=$obj;
+                }
+
+
+
+            }
+        return $versions;
+
+
+        // where('project_id', $project_id)
+        // ->whereHas('versions',function($query){
+        //     $query->orderByDesc('created_at');
+        // })
+
+
+
+            // ->whereHas("versions", function ($query) {
+            //     $query->orderByDesc('created_at')
+            //         ->whereHas("answers", function ($query) {
+            //             $query->whereHas("form_question", function ($query) {
+            //                 $query->whereHas("question", function ($query) {
+            //                     $query->whereIn('content', ['tasks', 'start_job_date', 'end_job_date']);
+            //                 });
+            //             });
+            //         });
+            // })->with('versions.answers.form_question.question')->get();
         return response()->json([
             'message' => 'done',
             'user_type '=>auth()->user()->user_type,
