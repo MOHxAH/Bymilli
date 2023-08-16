@@ -25,16 +25,16 @@ public function store(Request $request)
         // Define validation rules for the input
         $validator = Validator::make($request->all(), [
             'project_name' => 'required|string|max:255',
-            'owner_name' => 'required|string|max:255',
-            'consultant_name' => 'required|string|max:255',
-            'consultant_email' => 'required|email|max:255',
-            'contractor_name' => 'required|string|max:255',
-            'contractor_email' => 'required|email|max:255',
+            'owner_name' => 'nullable|string|max:255',
+            'consultant_name' => 'nullable|string|max:255',
+            'consultant_email' => 'nullable|email|max:255',
+            'contractor_name' => 'nullable|string|max:255',
+            'contractor_email' => 'nullable|email|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'project_logo' => 'nullable|file', //,max:2048'
             'project_description' => 'nullable|string',
-            'location' => 'required|string|max:255',
+            'location' => 'nullable|string|max:255',
         ]);
 
         // If validation fails, return error response with validation status code
@@ -52,16 +52,16 @@ public function store(Request $request)
 
         $project = Project::create([
             'project_name' =>$request->project_name ,
-            'owner_name' => $request->owner_name,
-            'consultant_name' => $request->consultant_name,
-            'consultant_email' => $request->consultant_email,
-            'contractor_name' => $request->contractor_name,
-            'contractor_email' => $request->contractor_email,
+            'owner_name' => $request->owner_name??null,
+            'consultant_name' => $request->consultant_name??null,
+            'consultant_email' => $request->consultant_email??null,
+            'contractor_name' => $request->contractor_name??null,
+            'contractor_email' => $request->contractor_email??null,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'project_logo' => $logo,
-            'project_description' => $request->project_description,
-            'location' =>$request->location,
+            'project_logo' => $logo??null,
+            'project_description' => $request->project_description??null,
+            'location' =>$request->location??null,
 
 
         ]);
