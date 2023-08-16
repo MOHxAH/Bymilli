@@ -47,7 +47,6 @@ public function store(Request $request)
             $file = $request->file('project_logo');
             $filename = date('YmdHi').$file->getClientOriginalName();
                         $file->move(public_path('images'), $filename);
-                        $request->logo=$filename;
         }
 
         $project = Project::create([
@@ -59,7 +58,7 @@ public function store(Request $request)
             'contractor_email' => $request->contractor_email??null,
             'start_date' => $request->start_date??null,
             'end_date' => $request->end_date??null,
-            'project_logo' => $request->logo??null,
+            'project_logo' => $filename,
             'project_description' => $request->project_description??null,
             'location' =>$request->location??null,
 
