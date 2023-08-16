@@ -69,6 +69,7 @@ class AuthController extends Controller
             //'user' => $user,
             'token' => $user->createToken("API TOKEN")->plainTextToken,
             'user_type'=> $user->user_type,
+            'user_id'=> auth()->id(),
         ], 200);
 
     }catch (\Throwable $th) {
@@ -127,6 +128,8 @@ class AuthController extends Controller
             'message' => 'User Logged In Successfully',
             'token' => $user->createToken("API TOKEN")->plainTextToken,
             'user_type'=> $user->user_type,
+            'user_id'=> auth()->id(),
+
         ], 200);
 
     } catch (\Throwable $th) {
