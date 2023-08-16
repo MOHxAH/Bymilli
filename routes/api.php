@@ -56,9 +56,13 @@ use App\Models\Request as ModelsRequest;
 // // //     //Route::delete('projects',[ProjectController::class,('destroy')]);
 //  });
 
+
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
+    Route::get('unAuth','unAuth');
+    Route::post('unAuth','unAuth');
+
     //Route::get('logout', 'logout');
     //Route::post('refresh', 'refresh');
 });

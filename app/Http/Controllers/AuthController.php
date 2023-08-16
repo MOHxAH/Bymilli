@@ -67,7 +67,8 @@ class AuthController extends Controller
             'status' => true,
             'message' => 'User created successfully',
             //'user' => $user,
-            'token' => $user->createToken("API TOKEN")->plainTextToken
+            'token' => $user->createToken("API TOKEN")->plainTextToken,
+            'user_type'=> $user->user_type,
         ], 200);
 
     }catch (\Throwable $th) {
@@ -124,7 +125,8 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'User Logged In Successfully',
-            'token' => $user->createToken("API TOKEN")->plainTextToken
+            'token' => $user->createToken("API TOKEN")->plainTextToken,
+            'user_type'=> $user->user_type,
         ], 200);
 
     } catch (\Throwable $th) {
@@ -142,5 +144,13 @@ class AuthController extends Controller
             'status' => 'true',
             'message' => 'Successfully logged out',
         ]);
+    }
+    public function unAuth()
+    {
+        return response()->json([
+            'status' => 'false',
+            'message' => 'the user is unAuthnticated',
+            'code'=>'401'
+        ],401);
     }
 }

@@ -39,6 +39,7 @@ class RequestController extends Controller
             "project_data" => $project,
             'order_number' => $form->code . '#' . $count_request,
             'version_number' => $version_number,
+            'user_type '=>auth()->user()->user_type,
             //'logos'
 
         ]);
@@ -134,7 +135,7 @@ class RequestController extends Controller
                 }
             }
             DB::commit();
-            return response()->json(['message' => 'Request created successfully.']);
+            return response()->json(['message' => 'Request created successfully.','user_type '=>auth()->user()->user_type]);
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -158,6 +159,7 @@ class RequestController extends Controller
             })->with('versions.answers.form_question.question')->get();
         return response()->json([
             'message' => 'done',
+            'user_type '=>auth()->user()->user_type,
             'data' => RequestResource::collection($requests),
         ]);
     }
@@ -190,6 +192,7 @@ class RequestController extends Controller
 
         return response()->json([
             'message' => 'done',
+            'user_type '=>auth()->user()->user_type,
             'data' => RequestResource::collection($requests),
         ]);
     }

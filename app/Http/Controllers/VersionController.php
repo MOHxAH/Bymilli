@@ -42,7 +42,8 @@ class VersionController extends Controller
             'message' => 'done',
             'data'=> $data,
             'rate'=>$rate->rate??null,
-            'times'=>$times
+            'times'=>$times,
+            'user_type '=>auth()->user()->user_type
             ]);
 
 

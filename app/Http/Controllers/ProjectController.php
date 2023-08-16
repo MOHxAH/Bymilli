@@ -42,30 +42,37 @@ public function store(Request $request)
             return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()], 422);
         }
 
-        $project = new Project;
-
+        $logo =null;
         if ($request->hasFile('project_logo')) {
             $file = $request->file('project_logo');
             $filename = date('YmdHi').$file->getClientOriginalName();
                         $file->move(public_path('images'), $filename);
+                        $logo=$filename;
         }
-        $project->project_name = $request->project_name;
-        $project->owner_name = $request->owner_name;
-        $project->consultant_name = $request->consultant_name;
-        $project->consultant_email = $request->consultant_email;
-        $project->contractor_name = $request->contractor_name;
-        $project->contractor_email = $request->contractor_email;
-        $project->start_date = $request->start_date;
-        $project->end_date = $request->end_date;
-        $project->project_logo = $request->project_logo;
-        $project->project_description = $request->project_description;
-        $project->location = $request->location;
-        $project->save();
+
+        $project = Project::create([
+            'project_name' =>$request->project_name ,
+            'owner_name' => $request->owner_name,
+            'consultant_name' => $request->consultant_name,
+            'consultant_email' => $request->consultant_email,
+            'contractor_name' => $request->contractor_name,
+            'contractor_email' => $request->contractor_email,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'project_logo' => $logo,
+            'project_description' => $request->project_description,
+            'location' =>$request->location,
+
+
+        ]);
+
 
         // Create a new project using mass assignment
         //$project = Project::create($request->all());
+        //        $project->save();
 
-        $projectUser = ProjectUser::create([
+
+        $projectuser = ProjectUser::create([
         'user_id' => auth()->id(),
         'project_id' => $project->id,
         'project_name'=>$project->project_name,
@@ -73,7 +80,8 @@ public function store(Request $request)
         ]);
 
         // Return success response with created status code
-        return response()->json(['message' => 'Project created successfully', 'data' => $project], 201);
+        return response()->json(['message' => 'Project created successfully', 'data' => $project,
+    'user_type '=>auth()->user()->user_type], 201);
     } catch (QueryException $e) {
         // Handle database query exceptions and return error response with server error status code
         return response()->json(['message' => 'An error occurred while processing your request', 'error' => $e->getMessage()], 500);

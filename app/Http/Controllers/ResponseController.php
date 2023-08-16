@@ -86,7 +86,8 @@ class ResponseController extends Controller
             DB::commit();
 
             // Return a success response
-            return response()->json(['message' => 'Response created successfully.'], 201);
+            return response()->json(['message' => 'Response created successfully.',
+            'user_type '=>auth()->user()->user_type], 201);
         } catch (\Exception $e) {
             // If an exception occurs, roll back the transaction and return an error response
             DB::rollback();
